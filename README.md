@@ -1,6 +1,10 @@
 # RawHttpClient
 
-### 1) httpc
+### 1) Building the project
+
+    mvn clean compile assembly:single
+
+### 2) httpc
 
 cURL-like Java HTTP 1.0 client implementation
 
