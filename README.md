@@ -33,3 +33,5 @@ Getting help:
     java -jar target/httpc-1.0-jar-with-dependencies.jar post help
     java -jar target/httpc-1.0-jar-with-dependencies.jar get help
     
+
+### 3) You can also test this raw http client with its corresponding http server called [httpfs](https://github.com/AC159/RawHttpServer)
