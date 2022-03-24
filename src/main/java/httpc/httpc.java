@@ -7,6 +7,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class httpc {
@@ -39,7 +40,7 @@ public class httpc {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         if (args.length == 0) {
             httpcHelp("");
@@ -160,17 +161,36 @@ public class httpc {
         sm.pw.flush();
 
         String response;
-        Scanner sc = new Scanner(sm.inputStream);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(sm.inputStream));
+        HashMap<String, String> responseHeaders = new HashMap<>();
+        // parse response headers
+        StringBuilder request = new StringBuilder();
+        String answer = reader.readLine();
 
-        boolean print = false;
-        while(sc.hasNext()) {
-            response = sc.nextLine();
-            if (response.contains("{")) print = true;
-            if (response.contains("<!DOCTYPE html>") || response.contains("<!doctype html>")) print = true;
-            if (verbose || print) System.out.println(response);
+        while (answer.length() > 0) {
+            request.append("\n").append(answer);
+            answer = reader.readLine();
+            String[] header = answer.split(":");
+            if (header.length > 1) responseHeaders.put(header[0].trim().toLowerCase(), header[1].trim());
         }
 
-        sc.close();
+        StringBuilder responseBody = new StringBuilder();
+        for (int i = 0; i <= Integer.parseInt(responseHeaders.get("content-length"))-1; i++) {
+            answer = String.valueOf((char) reader.read());
+            responseBody.append(answer);
+        }
+
+        System.out.println(responseBody);
+
+//        boolean print = false;
+//        while(sc.hasNext()) {
+//            response = sc.nextLine();
+//            if (response.contains("{")) print = true;
+//            if (response.contains("<!DOCTYPE html>") || response.contains("<!doctype html>")) print = true;
+//            if (verbose || print) System.out.println(response);
+//        }
+
+        reader.close();
         sm.closeSocket();
     }
 
