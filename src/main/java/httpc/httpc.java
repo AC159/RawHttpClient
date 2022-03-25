@@ -182,14 +182,6 @@ public class httpc {
 
         System.out.println(responseBody);
 
-//        boolean print = false;
-//        while(sc.hasNext()) {
-//            response = sc.nextLine();
-//            if (response.contains("{")) print = true;
-//            if (response.contains("<!DOCTYPE html>") || response.contains("<!doctype html>")) print = true;
-//            if (verbose || print) System.out.println(response);
-//        }
-
         reader.close();
         sm.closeSocket();
     }
